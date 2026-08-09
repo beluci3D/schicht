@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="pageTitle">SCHICHT — Your Model. Someone's Printer.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0e1117;
+    --bg-alt:#0b0e13;
+    --panel:#161c25;
+    --panel-2:#1c2330;
+    --line:#262e3a;
+    --text:#eef2f7;
+    --text-dim:#8b94a3;
+    --warm:#ff7a2f;
+    --warm-soft:rgba(255,122,47,0.14);
+    --warm-line:rgba(255,122,47,0.35);
+    --cool:#48d6e8;
+    --cool-soft:rgba(72,214,232,0.14);
+    --cool-line:rgba(72,214,232,0.35);
+    --radius:14px;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter', sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  .mono{font-family:'JetBrains Mono', monospace;}
+  h1,h2,h3,.display{font-family:'Space Grotesk', sans-serif;}
+
+  .wrap{
+    max-width:1180px;
+    margin:0 auto;
+    padding:0 32px;
+  }
+
+  a{color:inherit; text-decoration:none;}
+
+  /* background blueprint grid */
+  .grid-bg{
+    position:absolute; inset:0;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size:44px 44px;
+    opacity:0.35;
+    mask-image:radial-gradient(ellipse 70% 60% at 50% 0%, black 40%, transparent 90%);
+    -webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 0%, black 40%, transparent 90%);
+  }
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(14,17,23,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    height:72px;
+  }
+  .logo{
+    display:flex; align-items:center; gap:10px;
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700; font-size:1.15rem; letter-spacing:0.02em;
+  }
+  .logo-mark{
+    display:flex; flex-direction:column; gap:3px;
+  }
+  .logo-mark span{
+    display:block; height:3px; border-radius:2px;
+    background:linear-gradient(90deg, var(--warm), var(--cool));
+  }
+  .logo-mark span:nth-child(1){width:18px;}
+  .logo-mark span:nth-child(2){width:13px;}
+  .logo-mark span:nth-child(3){width:8px;}
+
+  .nav-links{
+    display:flex; gap:36px; font-size:0.92rem; color:var(--text-dim);
+  }
+  .nav-links a:hover{color:var(--text);}
+
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center;
+    padding:12px 22px; border-radius:999px; font-weight:600; font-size:0.92rem;
+    border:1px solid transparent; cursor:pointer; transition:transform .15s ease, opacity .15s ease;
+    white-space:nowrap;
+  }
+  .btn:hover{transform:translateY(-1px);}
+  .btn-warm{background:var(--warm); color:#1a0d02;}
+  .btn-warm:hover{opacity:0.92;}
+  .btn-cool-outline{background:transparent; color:var(--cool); border-color:var(--cool-line);}
+  .btn-cool-outline:hover{background:var(--cool-soft);}
+  .btn-nav{padding:10px 20px; font-size:0.85rem; background:var(--panel-2); border-color:var(--line);}
+
+  @media (max-width:820px){ .nav-links{display:none;} }
+
+  .nav-actions{display:flex; align-items:center; gap:12px;}
+  .lang-toggle{
+    padding:10px 16px; font-size:0.85rem; background:transparent;
+    border:1px solid var(--line); color:var(--text-dim); gap:6px;
+  }
+  .lang-toggle:hover{color:var(--text); border-color:var(--cool-line);}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    padding:120px 0 100px;
+    overflow:hidden;
+  }
+  .hero-glow{
+    position:absolute; width:640px; height:640px; border-radius:50%;
+    filter:blur(120px); opacity:0.20; z-index:0;
+    background:linear-gradient(135deg, var(--warm), var(--cool));
+    top:-260px; left:50%; transform:translateX(-50%);
+  }
+  .hero-inner{
+    position:relative; z-index:1;
+    display:grid; grid-template-columns:1.1fr 0.9fr; gap:64px; align-items:center;
+  }
+  @media (max-width:900px){ .hero-inner{grid-template-columns:1fr;} .hero{padding:90px 0 60px;} }
+
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:10px;
+    font-family:'JetBrains Mono', monospace; font-size:0.72rem; letter-spacing:0.14em;
+    color:var(--text-dim); text-transform:uppercase; margin-bottom:22px;
+  }
+  .eyebrow::before{
+    content:''; width:7px; height:7px; border-radius:50%; background:var(--warm);
+    box-shadow:0 0 0 3px var(--warm-soft);
+  }
+
+  .hero h1{
+    font-size:clamp(2.3rem, 5.6vw, 4rem);
+    line-height:1.05; font-weight:700; letter-spacing:-0.01em;
+    margin-bottom:26px;
+  }
+  .hero h1 .line{
+    display:block; overflow:hidden;
+  }
+  .hero h1 .line span{
+    display:inline-block;
+    transform:translateY(110%);
+    animation:printLine .7s cubic-bezier(.2,.8,.2,1) forwards;
+  }
+  .hero h1 .line:nth-child(1) span{animation-delay:.15s;}
+  .hero h1 .line:nth-child(2) span{animation-delay:.38s; color:var(--cool);}
+  @keyframes printLine{ to{transform:translateY(0);} }
+
+  .hero p.lead{
+    font-size:1.1rem; color:var(--text-dim); max-width:480px; margin-bottom:34px;
+  }
+
+  .hero-ctas{display:flex; gap:14px; flex-wrap:wrap; margin-bottom:18px;}
+  .hero-note{font-size:0.82rem; color:var(--text-dim);}
+  .hero-note b{color:var(--text); font-weight:600;}
+
+  /* job card mock */
+  .job-card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:22px;
+    box-shadow:0 30px 60px -30px rgba(0,0,0,0.6);
+    position:relative;
+  }
+  .job-card-top{
+    display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:18px;
+  }
+  .job-file{font-family:'JetBrains Mono', monospace; font-size:0.82rem; color:var(--text-dim);}
+  .status-pill{
+    font-family:'JetBrains Mono', monospace; font-size:0.7rem; letter-spacing:0.05em;
+    padding:5px 11px; border-radius:999px; background:var(--warm-soft); color:var(--warm);
+    border:1px solid var(--warm-line); text-transform:uppercase;
+  }
+  .job-price{font-size:1.9rem; font-weight:700; font-family:'Space Grotesk', sans-serif; margin-bottom:4px;}
+  .job-sub{font-size:0.82rem; color:var(--text-dim); margin-bottom:20px;}
+
+  .layer-viz{
+    display:flex; flex-direction:column-reverse; gap:3px; height:90px; justify-content:flex-start;
+    padding:12px; background:var(--bg-alt); border-radius:10px; border:1px solid var(--line);
+    margin-bottom:16px;
+  }
+  .layer-viz .layer{
+    height:6px; border-radius:3px;
+    background:linear-gradient(90deg, var(--warm), var(--cool));
+    opacity:0; width:0%;
+    animation:layerFill 3.2s ease-in-out infinite;
+  }
+  .layer-viz .layer:nth-child(1){animation-delay:0s; width:96%;}
+  .layer-viz .layer:nth-child(2){animation-delay:.15s; width:88%;}
+  .layer-viz .layer:nth-child(3){animation-delay:.3s; width:92%;}
+  .layer-viz .layer:nth-child(4){animation-delay:.45s; width:80%;}
+  .layer-viz .layer:nth-child(5){animation-delay:.6s; width:70%;}
+  .layer-viz .layer:nth-child(6){animation-delay:.75s; width:55%;}
+  @keyframes layerFill{
+    0%{opacity:0; transform:scaleX(0); transform-origin:left;}
+    18%{opacity:1; transform:scaleX(1);}
+    85%{opacity:1;}
+    100%{opacity:0.15;}
+  }
+
+  .job-meta{display:flex; justify-content:space-between; font-size:0.78rem; color:var(--text-dim);}
+  .job-meta b{color:var(--text); font-weight:600;}
+
+  /* ---------- SECTION shared ---------- */
+  section{padding:100px 0;}
+  .section-head{max-width:600px; margin-bottom:56px;}
+  .section-head h2{font-size:clamp(1.7rem, 3.4vw, 2.4rem); font-weight:600; margin-top:14px; letter-spacing:-0.01em;}
+
+  [data-reveal]{opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease;}
+  [data-reveal].is-visible{opacity:1; transform:translateY(0);}
+
+  /* ---------- PROCESS ---------- */
+  .process{border-top:1px solid var(--line); border-bottom:1px solid var(--line); background:var(--bg-alt);}
+  .process-track{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:0; position:relative;
+  }
+  .process-track::before{
+    content:''; position:absolute; top:19px; left:8%; right:8%; height:1px;
+    background-image:linear-gradient(90deg, var(--line) 60%, transparent 40%);
+    background-size:14px 1px;
+  }
+  @media (max-width:820px){ .process-track{grid-template-columns:1fr; gap:36px;} .process-track::before{display:none;} }
+
+  .process-step{padding-right:28px;}
+  .step-dot{
+    width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    background:var(--panel); border:1px solid var(--line); margin-bottom:20px; position:relative; z-index:1;
+    font-family:'JetBrains Mono', monospace; font-size:0.75rem; color:var(--text-dim);
+  }
+  .process-step:nth-child(1) .step-dot{border-color:var(--warm-line); color:var(--warm);}
+  .process-step:nth-child(2) .step-dot{border-color:var(--warm-line); background:var(--warm-soft); color:var(--warm);}
+  .process-step:nth-child(3) .step-dot{border-color:var(--cool-line); background:var(--cool-soft); color:var(--cool);}
+  .process-step h3{font-size:1.15rem; font-weight:600; margin-bottom:10px;}
+  .process-step p{color:var(--text-dim); font-size:0.94rem;}
+
+  /* ---------- FOR WHOM ---------- */
+  .whom-grid{display:grid; grid-template-columns:1fr 1fr; gap:24px;}
+  @media (max-width:820px){ .whom-grid{grid-template-columns:1fr;} }
+  .whom-card{
+    border-radius:var(--radius); padding:36px; border:1px solid var(--line);
+  }
+  .whom-card.warm{background:linear-gradient(180deg, var(--warm-soft), transparent 60%), var(--panel); border-color:var(--warm-line);}
+  .whom-card.cool{background:linear-gradient(180deg, var(--cool-soft), transparent 60%), var(--panel); border-color:var(--cool-line);}
+  .whom-tag{
+    font-family:'JetBrains Mono', monospace; font-size:0.72rem; letter-spacing:0.1em; text-transform:uppercase;
+    margin-bottom:16px; display:inline-block;
+  }
+  .whom-card.warm .whom-tag{color:var(--warm);}
+  .whom-card.cool .whom-tag{color:var(--cool);}
+  .whom-card h3{font-size:1.5rem; font-weight:600; margin-bottom:24px;}
+  .whom-card ul{list-style:none; display:flex; flex-direction:column; gap:14px;}
+  .whom-card li{display:flex; gap:12px; font-size:0.95rem; color:var(--text); align-items:flex-start;}
+  .whom-card li::before{content:''; width:6px; height:6px; margin-top:8px; border-radius:1px; flex:none;}
+  .whom-card.warm li::before{background:var(--warm);}
+  .whom-card.cool li::before{background:var(--cool);}
+
+  /* ---------- TRUST ---------- */
+  .trust-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px;}
+  @media (max-width:820px){ .trust-grid{grid-template-columns:1fr;} }
+  .trust-card{
+    padding:30px; border:1px solid var(--line); border-radius:var(--radius); background:var(--panel);
+  }
+  .trust-icon{
+    width:40px; height:40px; border-radius:10px; margin-bottom:18px;
+    background:var(--panel-2); border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .trust-card h3{font-size:1.05rem; font-weight:600; margin-bottom:10px;}
+  .trust-card p{font-size:0.9rem; color:var(--text-dim);}
+
+  /* ---------- CTA ---------- */
+  .cta{
+    background:var(--bg-alt); border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+    text-align:center;
+  }
+  .cta h2{font-size:clamp(1.7rem, 3.6vw, 2.5rem); font-weight:600; margin-bottom:14px;}
+  .cta p{color:var(--text-dim); max-width:480px; margin:0 auto 34px;}
+  .cta-form{
+    display:flex; gap:10px; max-width:420px; margin:0 auto 14px; flex-wrap:wrap; justify-content:center;
+  }
+  .cta-form input{
+    flex:1; min-width:220px; padding:13px 18px; border-radius:999px; border:1px solid var(--line);
+    background:var(--panel); color:var(--text); font-family:'Inter',sans-serif; font-size:0.92rem;
+  }
+  .cta-form input:focus{outline:2px solid var(--cool-line); outline-offset:2px;}
+  .cta-fine{font-size:0.78rem; color:var(--text-dim);}
+
+  /* ---------- FOOTER ---------- */
+  footer{padding:48px 0;}
+  footer .wrap{
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px;
+  }
+  .footer-tag{color:var(--text-dim); font-size:0.85rem;}
+  .footer-links{display:flex; gap:26px; font-size:0.85rem; color:var(--text-dim);}
+  .footer-links a:hover{color:var(--text);}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important;}
+    .hero h1 .line span{transform:translateY(0);}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="logo">
+      <span class="logo-mark"><span></span><span></span><span></span></span>
+      SCHICHT
+    </div>
+    <div class="nav-links">
+      <a href="#ablauf" data-i18n="nav.how">How it works</a>
+      <a href="#zielgruppen" data-i18n="nav.who">Who it's for</a>
+      <a href="#vertrauen" data-i18n="nav.trust">Trust</a>
+    </div>
+    <div class="nav-actions">
+      <button type="button" id="langToggle" class="btn btn-nav lang-toggle" onclick="setLang(currentLang==='en'?'de':'en')" aria-label="Auf Deutsch wechseln">DE</button>
+      <a href="#cta" class="btn btn-nav" data-i18n="nav.cta">Early access</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="grid-bg"></div>
+  <div class="hero-glow"></div>
+  <div class="wrap hero-inner">
+    <div>
+      <div class="eyebrow" data-i18n="hero.eyebrow">3D printing marketplace — peer to peer</div>
+      <h1>
+        <span class="line"><span data-i18n="hero.h1.line1">You have the idea.</span></span>
+        <span class="line"><span data-i18n="hero.h1.line2">Someone has the printer.</span></span>
+      </h1>
+      <p class="lead" data-i18n="hero.lead">Upload your 3D model and say what the print is worth to you. A verified printer owner near you takes the job, prints it, and ships it to you.</p>
+      <div class="hero-ctas">
+        <a href="#cta" class="btn btn-warm" data-i18n="hero.cta.upload">Upload model</a>
+        <a href="#cta" class="btn btn-cool-outline" data-i18n="hero.cta.register">Register as printer owner</a>
+      </div>
+      <p class="hero-note"><b data-i18n="hero.note.bold">Payment released only on delivery</b><span data-i18n="hero.note.rest"> · no fixed costs, no subscriptions</span></p>
+    </div>
+
+    <div class="job-card">
+      <div class="job-card-top">
+        <div>
+          <div class="job-file" data-i18n="job.file">hinge_replacement_v3.stl</div>
+        </div>
+        <div class="status-pill" data-i18n="job.status">In queue</div>
+      </div>
+      <div class="job-price" data-i18n="job.price">€18</div>
+      <div class="job-sub" data-i18n="job.sub">Offered price · PLA, black · 0.2&nbsp;mm layer height</div>
+      <div class="layer-viz">
+        <div class="layer"></div><div class="layer"></div><div class="layer"></div>
+        <div class="layer"></div><div class="layer"></div><div class="layer"></div>
+      </div>
+      <div class="job-meta">
+        <span data-i18n="job.meta.offers">3 offers received</span>
+        <span><b data-i18n="job.meta.time">~2 hrs</b> <span data-i18n="job.meta.timelabel">print time</span></span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="process" id="ablauf">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <div class="eyebrow" data-i18n="process.eyebrow">The job status</div>
+      <h2 data-i18n="process.h2">From upload to mailbox — three stops</h2>
+    </div>
+    <div class="process-track">
+      <div class="process-step" data-reveal>
+        <div class="step-dot mono">01</div>
+        <h3 data-i18n="process.step1.title">In queue</h3>
+        <p data-i18n="process.step1.desc">Model uploaded, target price set. Nearby printer owners apply with an offer.</p>
+      </div>
+      <div class="process-step" data-reveal>
+        <div class="step-dot mono">02</div>
+        <h3 data-i18n="process.step2.title">Printing</h3>
+        <p data-i18n="process.step2.desc">Job accepted. A live progress photo of the print bed and the estimated time remaining are visible.</p>
+      </div>
+      <div class="process-step" data-reveal>
+        <div class="step-dot mono">03</div>
+        <h3 data-i18n="process.step3.title">Shipped</h3>
+        <p data-i18n="process.step3.desc">Tracking number arrives automatically, payment is released on delivery, then the review follows.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="zielgruppen">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <div class="eyebrow" data-i18n="whom.eyebrow">Two sides, one job</div>
+      <h2 data-i18n="whom.h2">Who SCHICHT is for</h2>
+    </div>
+    <div class="whom-grid">
+      <div class="whom-card warm" data-reveal>
+        <span class="whom-tag" data-i18n="whom.warm.tag">For requesters</span>
+        <h3 data-i18n="whom.warm.h3">Your model. Your price.</h3>
+        <ul>
+          <li data-i18n="whom.warm.li1">Upload an STL or link to a file you found</li>
+          <li data-i18n="whom.warm.li2">Name your price and compare offers</li>
+          <li data-i18n="whom.warm.li3">Follow progress live</li>
+          <li data-i18n="whom.warm.li4">Release payment only after you've received it</li>
+        </ul>
+      </div>
+      <div class="whom-card cool" data-reveal>
+        <span class="whom-tag" data-i18n="whom.cool.tag">For printer owners</span>
+        <h3 data-i18n="whom.cool.h3">Your printer. No downtime.</h3>
+        <ul>
+          <li data-i18n="whom.cool.li1">Set up a profile with printer, material and layer height</li>
+          <li data-i18n="whom.cool.li2">Filter for matching jobs near you</li>
+          <li data-i18n="whom.cool.li3">Set your own price, accept the job</li>
+          <li data-i18n="whom.cool.li4">Turn evening print time into money</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="vertrauen">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <div class="eyebrow" data-i18n="trust.eyebrow">Trust is the infill</div>
+      <h2 data-i18n="trust.h2">Turning a file into a good part</h2>
+    </div>
+    <div class="trust-grid">
+      <div class="trust-card" data-reveal>
+        <div class="trust-icon">🛡️</div>
+        <h3 data-i18n="trust.card1.title">Verified profiles</h3>
+        <p data-i18n="trust.card1.desc">Printer owners verify their equipment and past jobs before they can submit offers.</p>
+      </div>
+      <div class="trust-card" data-reveal>
+        <div class="trust-icon">🔒</div>
+        <h3 data-i18n="trust.card2.title">Escrow payment</h3>
+        <p data-i18n="trust.card2.desc">Your money stays safely with SCHICHT until the package arrives and you confirm it.</p>
+      </div>
+      <div class="trust-card" data-reveal>
+        <div class="trust-icon">★</div>
+        <h3 data-i18n="trust.card3.title">Review after every job</h3>
+        <p data-i18n="trust.card3.desc">Quality, punctuality, and communication stay visible — for both sides.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta" id="cta">
+  <div class="wrap">
+    <div data-reveal>
+      <div class="eyebrow" style="justify-content:center;">Early Access</div>
+      <h2 data-i18n="cta.h2">Join before the first layer is laid</h2>
+      <p data-i18n="cta.p">SCHICHT is being built right now. Sign up and you'll be among the first who can give or take on jobs.</p>
+      <form class="cta-form" onsubmit="return false;">
+        <input type="email" placeholder="you@email.com" data-i18n-placeholder="cta.input" required>
+        <button type="submit" class="btn btn-warm" data-i18n="cta.button">Reserve your spot</button>
+      </form>
+      <p class="cta-fine" data-i18n="cta.fine">No spam. One email when we launch.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-tag" data-i18n="footer.tag">SCHICHT — layer by layer to a finished part.</div>
+    <div class="footer-links">
+      <a href="#" data-i18n="footer.contact">Contact</a>
+      <a href="#" data-i18n="footer.legal">Legal notice</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('is-visible'); io.unobserve(e.target); }
+    });
+  }, {threshold:0.15});
+  document.querySelectorAll('[data-reveal]').forEach(el=>io.observe(el));
+
+  const translations = {
+    en: {
+      title: "SCHICHT — Your Model. Someone's Printer.",
+      'nav.how': "How it works",
+      'nav.who': "Who it's for",
+      'nav.trust': "Trust",
+      'nav.cta': "Early access",
+      'hero.eyebrow': "3D printing marketplace — peer to peer",
+      'hero.h1.line1': "You have the idea.",
+      'hero.h1.line2': "Someone has the printer.",
+      'hero.lead': "Upload your 3D model and say what the print is worth to you. A verified printer owner near you takes the job, prints it, and ships it to you.",
+      'hero.cta.upload': "Upload model",
+      'hero.cta.register': "Register as printer owner",
+      'hero.note.bold': "Payment released only on delivery",
+      'hero.note.rest': " · no fixed costs, no subscriptions",
+      'job.file': "hinge_replacement_v3.stl",
+      'job.status': "In queue",
+      'job.price': "€18",
+      'job.sub': "Offered price · PLA, black · 0.2&nbsp;mm layer height",
+      'job.meta.offers': "3 offers received",
+      'job.meta.time': "~2 hrs",
+      'job.meta.timelabel': "print time",
+      'process.eyebrow': "The job status",
+      'process.h2': "From upload to mailbox — three stops",
+      'process.step1.title': "In queue",
+      'process.step1.desc': "Model uploaded, target price set. Nearby printer owners apply with an offer.",
+      'process.step2.title': "Printing",
+      'process.step2.desc': "Job accepted. A live progress photo of the print bed and the estimated time remaining are visible.",
+      'process.step3.title': "Shipped",
+      'process.step3.desc': "Tracking number arrives automatically, payment is released on delivery, then the review follows.",
+      'whom.eyebrow': "Two sides, one job",
+      'whom.h2': "Who SCHICHT is for",
+      'whom.warm.tag': "For requesters",
+      'whom.warm.h3': "Your model. Your price.",
+      'whom.warm.li1': "Upload an STL or link to a file you found",
+      'whom.warm.li2': "Name your price and compare offers",
+      'whom.warm.li3': "Follow progress live",
+      'whom.warm.li4': "Release payment only after you've received it",
+      'whom.cool.tag': "For printer owners",
+      'whom.cool.h3': "Your printer. No downtime.",
+      'whom.cool.li1': "Set up a profile with printer, material and layer height",
+      'whom.cool.li2': "Filter for matching jobs near you",
+      'whom.cool.li3': "Set your own price, accept the job",
+      'whom.cool.li4': "Turn evening print time into money",
+      'trust.eyebrow': "Trust is the infill",
+      'trust.h2': "Turning a file into a good part",
+      'trust.card1.title': "Verified profiles",
+      'trust.card1.desc': "Printer owners verify their equipment and past jobs before they can submit offers.",
+      'trust.card2.title': "Escrow payment",
+      'trust.card2.desc': "Your money stays safely with SCHICHT until the package arrives and you confirm it.",
+      'trust.card3.title': "Review after every job",
+      'trust.card3.desc': "Quality, punctuality, and communication stay visible — for both sides.",
+      'cta.h2': "Join before the first layer is laid",
+      'cta.p': "SCHICHT is being built right now. Sign up and you'll be among the first who can give or take on jobs.",
+      'cta.input': "you@email.com",
+      'cta.button': "Reserve your spot",
+      'cta.fine': "No spam. One email when we launch.",
+      'footer.tag': "SCHICHT — layer by layer to a finished part.",
+      'footer.contact': "Contact",
+      'footer.legal': "Legal notice"
+    },
+    de: {
+      title: "SCHICHT — Dein Modell. Jemandes Drucker.",
+      'nav.how': "So funktioniert's",
+      'nav.who': "Für wen",
+      'nav.trust': "Vertrauen",
+      'nav.cta': "Früher Zugang",
+      'hero.eyebrow': "Marktplatz für 3D-Druck — peer to peer",
+      'hero.h1.line1': "Du hast die Idee.",
+      'hero.h1.line2': "Jemand hat den Drucker.",
+      'hero.lead': "Lade dein 3D-Modell hoch und sag, was dir der Druck wert ist. Ein geprüfter Drucker-Besitzer in deiner Nähe übernimmt den Auftrag, druckt und verschickt ihn dir.",
+      'hero.cta.upload': "Modell hochladen",
+      'hero.cta.register': "Als Drucker registrieren",
+      'hero.note.bold': "Zahlung erst bei Zustellung freigegeben",
+      'hero.note.rest': " · keine Fixkosten, keine Abos",
+      'job.file': "scharnier_ersatzteil_v3.stl",
+      'job.status': "Warteschlange",
+      'job.price': "18&nbsp;€",
+      'job.sub': "Gebotener Preis · PLA, schwarz · Schichthöhe 0,2&nbsp;mm",
+      'job.meta.offers': "3 Angebote eingegangen",
+      'job.meta.time': "~2 Std.",
+      'job.meta.timelabel': "Druckzeit",
+      'process.eyebrow': "Der Auftrags-Status",
+      'process.h2': "Vom Upload bis zur Post — drei Stationen",
+      'process.step1.title': "Warteschlange",
+      'process.step1.desc': "Modell hochgeladen, Wunschpreis genannt. Drucker-Besitzer in der Nähe bewerben sich mit einem Angebot.",
+      'process.step2.title': "Wird gedruckt",
+      'process.step2.desc': "Auftrag angenommen. Fortschrittsfoto vom Druckbett und geschätzte Restzeit sind live einsehbar.",
+      'process.step3.title': "Versendet",
+      'process.step3.desc': "Trackingnummer kommt automatisch, Zahlung wird bei Zustellung freigegeben, danach folgt die Bewertung.",
+      'whom.eyebrow': "Zwei Seiten, ein Auftrag",
+      'whom.h2': "Für wen SCHICHT gemacht ist",
+      'whom.warm.tag': "Für Auftraggeber",
+      'whom.warm.h3': "Dein Modell. Dein Preis.",
+      'whom.warm.li1': "STL hochladen oder ein Fundstück verlinken",
+      'whom.warm.li2': "Wunschpreis nennen und Angebote vergleichen",
+      'whom.warm.li3': "Fortschritt live mitverfolgen",
+      'whom.warm.li4': "Zahlung erst nach Erhalt freigeben",
+      'whom.cool.tag': "Für Drucker-Besitzer",
+      'whom.cool.h3': "Dein Drucker. Kein Leerlauf.",
+      'whom.cool.li1': "Profil mit Drucker, Material und Schichthöhe anlegen",
+      'whom.cool.li2': "Passende Aufträge in deiner Nähe filtern",
+      'whom.cool.li3': "Preis selbst festlegen, Auftrag annehmen",
+      'whom.cool.li4': "Feierabend-Druckzeit zu Geld machen",
+      'trust.eyebrow': "Vertrauen ist der Füllgrad",
+      'trust.h2': "Damit aus einer Datei ein gutes Teil wird",
+      'trust.card1.title': "Geprüfte Profile",
+      'trust.card1.desc': "Drucker-Besitzer verifizieren Equipment und bisherige Aufträge, bevor sie Angebote abgeben können.",
+      'trust.card2.title': "Treuhand-Zahlung",
+      'trust.card2.desc': "Dein Geld liegt sicher auf SCHICHT, bis das Paket bei dir ankommt und du es bestätigst.",
+      'trust.card3.title': "Bewertung nach jedem Auftrag",
+      'trust.card3.desc': "Qualität, Termintreue und Kommunikation bleiben sichtbar — für beide Seiten.",
+      'cta.h2': "Sei dabei, bevor der erste Layer liegt",
+      'cta.p': "SCHICHT wird gerade gebaut. Trag dich ein und du gehörst zu den Ersten, die Aufträge geben oder annehmen können.",
+      'cta.input': "deine@email.de",
+      'cta.button': "Platz sichern",
+      'cta.fine': "Kein Spam. Eine Mail, wenn's losgeht.",
+      'footer.tag': "SCHICHT — Schicht für Schicht zum fertigen Teil.",
+      'footer.contact': "Kontakt",
+      'footer.legal': "Impressum"
+    }
+  };
+
+  let currentLang = 'en';
+
+  function setLang(lang){
+    currentLang = lang;
+    const dict = translations[lang];
+    document.documentElement.lang = lang;
+    document.title = dict.title;
+
+    document.querySelectorAll('[data-i18n]').forEach(el=>{
+      const key = el.getAttribute('data-i18n');
+      if(dict[key] !== undefined) el.innerHTML = dict[key];
+    });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{
+      const key = el.getAttribute('data-i18n-placeholder');
+      if(dict[key] !== undefined) el.setAttribute('placeholder', dict[key]);
+    });
+
+    const toggle = document.getElementById('langToggle');
+    toggle.textContent = lang === 'en' ? 'DE' : 'EN';
+    toggle.setAttribute('aria-label', lang === 'en' ? 'Auf Deutsch wechseln' : 'Switch to English');
+  }
+
+  setLang('en');
+</script>
+
+</body>
+</html>
