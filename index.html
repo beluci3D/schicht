@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title id="pageTitle">SCHICHT — Your Model. Someone's Printer.</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<meta name="description" content="SCHICHT – geplanter Peer-to-Peer-Marktplatz für 3D-Druck. Die Plattform befindet sich in Entwicklung.">
+<!-- Schriften lokal gehostet (keine Verbindung zu Google Fonts), Lizenz: SIL OFL 1.1 -->
+<link rel="stylesheet" href="fonts/fonts.css">
 <style>
   :root{
     --bg:#0e1117;
@@ -32,7 +32,7 @@
   body{
     background:var(--bg);
     color:var(--text);
-    font-family:'Inter', sans-serif;
+    font-family:'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
     line-height:1.5;
     -webkit-font-smoothing:antialiased;
     overflow-x:hidden;
@@ -300,13 +300,22 @@
   .cta-form input:focus{outline:2px solid var(--cool-line); outline-offset:2px;}
   .cta-fine{font-size:0.78rem; color:var(--text-dim);}
 
+  .cta-fine a, .footer-links a, .job-caption a{text-decoration:underline; text-underline-offset:3px;}
+  .job-caption{margin-top:10px; font-size:0.75rem; color:var(--text-dim); text-align:right;}
+  .dev-badge{
+    display:inline-block; margin-left:8px; padding:2px 8px; border-radius:999px;
+    font-family:'JetBrains Mono', monospace; font-size:0.65rem; letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--cool); border:1px solid var(--cool-line); background:var(--cool-soft); vertical-align:middle;
+  }
+
   /* ---------- FOOTER ---------- */
   footer{padding:48px 0;}
   footer .wrap{
     display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px;
   }
   .footer-tag{color:var(--text-dim); font-size:0.85rem;}
-  .footer-links{display:flex; gap:26px; font-size:0.85rem; color:var(--text-dim);}
+  .footer-links{display:flex; flex-wrap:wrap; gap:26px; font-size:0.85rem; color:var(--text-dim);}
+  .footer-links a{text-decoration:none;}
   .footer-links a:hover{color:var(--text);}
 
   @media (prefers-reduced-motion: reduce){
@@ -370,6 +379,7 @@
         <span data-i18n="job.meta.offers">3 offers received</span>
         <span><b data-i18n="job.meta.time">~2 hrs</b> <span data-i18n="job.meta.timelabel">print time</span></span>
       </div>
+      <p class="job-caption" data-i18n="job.caption">Illustration – not a real job</p>
     </div>
   </div>
 </header>
@@ -436,6 +446,7 @@
     <div class="section-head" data-reveal>
       <div class="eyebrow" data-i18n="trust.eyebrow">Trust is the infill</div>
       <h2 data-i18n="trust.h2">Turning a file into a good part</h2>
+      <p style="color:var(--text-dim); margin-top:12px;" data-i18n="trust.note">Planned features – SCHICHT is not live yet.</p>
     </div>
     <div class="trust-grid">
       <div class="trust-card" data-reveal>
@@ -463,10 +474,9 @@
       <div class="eyebrow" style="justify-content:center;">Early Access</div>
       <h2 data-i18n="cta.h2">Join before the first layer is laid</h2>
       <p data-i18n="cta.p">SCHICHT is being built right now. Sign up and you'll be among the first who can give or take on jobs.</p>
-      <form class="cta-form" onsubmit="return false;">
-        <input type="email" placeholder="you@email.com" data-i18n-placeholder="cta.input" required>
-        <button type="submit" class="btn btn-warm" data-i18n="cta.button">Reserve your spot</button>
-      </form>
+      <div class="cta-form">
+        <a class="btn btn-warm" href="mailto:[[EMAIL]]?subject=SCHICHT%20Early%20Access" data-i18n="cta.button">Reserve your spot by email</a>
+      </div>
       <p class="cta-fine" data-i18n="cta.fine">No spam. One email when we launch.</p>
     </div>
   </div>
@@ -476,8 +486,9 @@
   <div class="wrap">
     <div class="footer-tag" data-i18n="footer.tag">SCHICHT — layer by layer to a finished part.</div>
     <div class="footer-links">
-      <a href="#" data-i18n="footer.contact">Contact</a>
-      <a href="#" data-i18n="footer.legal">Legal notice</a>
+      <a href="mailto:[[EMAIL]]" data-i18n="footer.contact">Contact</a>
+      <a href="impressum.html" data-i18n="footer.legal">Legal notice</a>
+      <a href="datenschutz.html" data-i18n="footer.privacy">Privacy policy</a>
     </div>
   </div>
 </footer>
@@ -497,18 +508,19 @@
       'nav.who': "Who it's for",
       'nav.trust': "Trust",
       'nav.cta': "Early access",
-      'hero.eyebrow': "3D printing marketplace — peer to peer",
+      'hero.eyebrow': "3D printing marketplace — in development",
       'hero.h1.line1': "You have the idea.",
       'hero.h1.line2': "Someone has the printer.",
-      'hero.lead': "Upload your 3D model and say what the print is worth to you. A verified printer owner near you takes the job, prints it, and ships it to you.",
+      'hero.lead': "Upload your 3D model and say what the print is worth to you. A printer owner near you takes the job, prints it, and ships it to you. That's the plan — SCHICHT is being built right now.",
       'hero.cta.upload': "Upload model",
       'hero.cta.register': "Register as printer owner",
-      'hero.note.bold': "Payment released only on delivery",
+      'hero.note.bold': "Planned: payment released only on delivery",
       'hero.note.rest': " · no fixed costs, no subscriptions",
       'job.file': "hinge_replacement_v3.stl",
       'job.status': "In queue",
       'job.price': "€18",
       'job.sub': "Offered price · PLA, black · 0.2&nbsp;mm layer height",
+      'job.caption': "Illustration – not a real job",
       'job.meta.offers': "3 offers received",
       'job.meta.time': "~2 hrs",
       'job.meta.timelabel': "print time",
@@ -524,7 +536,7 @@
       'whom.h2': "Who SCHICHT is for",
       'whom.warm.tag': "For requesters",
       'whom.warm.h3': "Your model. Your price.",
-      'whom.warm.li1': "Upload an STL or link to a file you found",
+      'whom.warm.li1': "Upload your own STL or a model whose licence allows printing",
       'whom.warm.li2': "Name your price and compare offers",
       'whom.warm.li3': "Follow progress live",
       'whom.warm.li4': "Release payment only after you've received it",
@@ -536,20 +548,21 @@
       'whom.cool.li4': "Turn evening print time into money",
       'trust.eyebrow': "Trust is the infill",
       'trust.h2': "Turning a file into a good part",
+      'trust.note': "Planned features – SCHICHT is not live yet.",
       'trust.card1.title': "Verified profiles",
-      'trust.card1.desc': "Printer owners verify their equipment and past jobs before they can submit offers.",
-      'trust.card2.title': "Escrow payment",
-      'trust.card2.desc': "Your money stays safely with SCHICHT until the package arrives and you confirm it.",
+      'trust.card1.desc': "Printer owners are meant to verify their equipment and past jobs before they can submit offers.",
+      'trust.card2.title': "Protected payment",
+      'trust.card2.desc': "Payments are to be handled by a licensed payment provider and only paid out to the printer owner once you confirm delivery.",
       'trust.card3.title': "Review after every job",
       'trust.card3.desc': "Quality, punctuality, and communication stay visible — for both sides.",
       'cta.h2': "Join before the first layer is laid",
-      'cta.p': "SCHICHT is being built right now. Sign up and you'll be among the first who can give or take on jobs.",
-      'cta.input': "you@email.com",
-      'cta.button': "Reserve your spot",
-      'cta.fine': "No spam. One email when we launch.",
+      'cta.p': "SCHICHT is being built right now. Send us a short email and you'll be among the first who can give or take on jobs.",
+      'cta.button': "Reserve your spot by email",
+      'cta.fine': "No spam. We only use your address to tell you about the launch, and delete it whenever you ask. Details in the <a href=\"datenschutz.html\">privacy policy</a>.",
       'footer.tag': "SCHICHT — layer by layer to a finished part.",
       'footer.contact': "Contact",
-      'footer.legal': "Legal notice"
+      'footer.legal': "Legal notice",
+      'footer.privacy': "Privacy policy"
     },
     de: {
       title: "SCHICHT — Dein Modell. Jemandes Drucker.",
@@ -557,18 +570,19 @@
       'nav.who': "Für wen",
       'nav.trust': "Vertrauen",
       'nav.cta': "Früher Zugang",
-      'hero.eyebrow': "Marktplatz für 3D-Druck — peer to peer",
+      'hero.eyebrow': "Marktplatz für 3D-Druck — in Entwicklung",
       'hero.h1.line1': "Du hast die Idee.",
       'hero.h1.line2': "Jemand hat den Drucker.",
-      'hero.lead': "Lade dein 3D-Modell hoch und sag, was dir der Druck wert ist. Ein geprüfter Drucker-Besitzer in deiner Nähe übernimmt den Auftrag, druckt und verschickt ihn dir.",
+      'hero.lead': "Lade dein 3D-Modell hoch und sag, was dir der Druck wert ist. Ein Drucker-Besitzer in deiner Nähe übernimmt den Auftrag, druckt und verschickt ihn dir. So der Plan — SCHICHT wird gerade gebaut.",
       'hero.cta.upload': "Modell hochladen",
       'hero.cta.register': "Als Drucker registrieren",
-      'hero.note.bold': "Zahlung erst bei Zustellung freigegeben",
+      'hero.note.bold': "Geplant: Zahlung erst bei Zustellung freigegeben",
       'hero.note.rest': " · keine Fixkosten, keine Abos",
       'job.file': "scharnier_ersatzteil_v3.stl",
       'job.status': "Warteschlange",
       'job.price': "18&nbsp;€",
       'job.sub': "Gebotener Preis · PLA, schwarz · Schichthöhe 0,2&nbsp;mm",
+      'job.caption': "Illustration – kein echter Auftrag",
       'job.meta.offers': "3 Angebote eingegangen",
       'job.meta.time': "~2 Std.",
       'job.meta.timelabel': "Druckzeit",
@@ -584,7 +598,7 @@
       'whom.h2': "Für wen SCHICHT gemacht ist",
       'whom.warm.tag': "Für Auftraggeber",
       'whom.warm.h3': "Dein Modell. Dein Preis.",
-      'whom.warm.li1': "STL hochladen oder ein Fundstück verlinken",
+      'whom.warm.li1': "Eigenes STL hochladen oder ein Modell, dessen Lizenz den Druck erlaubt",
       'whom.warm.li2': "Wunschpreis nennen und Angebote vergleichen",
       'whom.warm.li3': "Fortschritt live mitverfolgen",
       'whom.warm.li4': "Zahlung erst nach Erhalt freigeben",
@@ -596,20 +610,21 @@
       'whom.cool.li4': "Feierabend-Druckzeit zu Geld machen",
       'trust.eyebrow': "Vertrauen ist der Füllgrad",
       'trust.h2': "Damit aus einer Datei ein gutes Teil wird",
+      'trust.note': "Geplante Funktionen – SCHICHT ist noch nicht online.",
       'trust.card1.title': "Geprüfte Profile",
-      'trust.card1.desc': "Drucker-Besitzer verifizieren Equipment und bisherige Aufträge, bevor sie Angebote abgeben können.",
-      'trust.card2.title': "Treuhand-Zahlung",
-      'trust.card2.desc': "Dein Geld liegt sicher auf SCHICHT, bis das Paket bei dir ankommt und du es bestätigst.",
+      'trust.card1.desc': "Drucker-Besitzer sollen Equipment und bisherige Aufträge verifizieren, bevor sie Angebote abgeben können.",
+      'trust.card2.title': "Geschützte Zahlung",
+      'trust.card2.desc': "Die Zahlung soll über einen lizenzierten Zahlungsdienstleister laufen und erst an den Drucker-Besitzer ausgezahlt werden, wenn du den Erhalt bestätigst.",
       'trust.card3.title': "Bewertung nach jedem Auftrag",
       'trust.card3.desc': "Qualität, Termintreue und Kommunikation bleiben sichtbar — für beide Seiten.",
       'cta.h2': "Sei dabei, bevor der erste Layer liegt",
-      'cta.p': "SCHICHT wird gerade gebaut. Trag dich ein und du gehörst zu den Ersten, die Aufträge geben oder annehmen können.",
-      'cta.input': "deine@email.de",
-      'cta.button': "Platz sichern",
-      'cta.fine': "Kein Spam. Eine Mail, wenn's losgeht.",
+      'cta.p': "SCHICHT wird gerade gebaut. Schreib uns eine kurze Mail und du gehörst zu den Ersten, die Aufträge geben oder annehmen können.",
+      'cta.button': "Platz per E-Mail sichern",
+      'cta.fine': "Kein Spam. Wir nutzen deine Adresse nur, um dich über den Start zu informieren, und löschen sie jederzeit auf Wunsch. Mehr in der <a href=\"datenschutz.html\">Datenschutzerklärung</a>.",
       'footer.tag': "SCHICHT — Schicht für Schicht zum fertigen Teil.",
       'footer.contact': "Kontakt",
-      'footer.legal': "Impressum"
+      'footer.legal': "Impressum",
+      'footer.privacy': "Datenschutz"
     }
   };
 
@@ -635,7 +650,7 @@
     toggle.setAttribute('aria-label', lang === 'en' ? 'Auf Deutsch wechseln' : 'Switch to English');
   }
 
-  setLang('en');
+  setLang((navigator.language || '').toLowerCase().startsWith('de') ? 'de' : 'en');
 </script>
 
 </body>

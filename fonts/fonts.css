@@ -1,0 +1,29 @@
+/*
+  Lokal gehostete Schriften – es werden KEINE Daten an Google oder andere Dritte übertragen.
+  Alle drei Schriften stehen unter der SIL Open Font License 1.1 (siehe OFL-*.txt in diesem Ordner).
+  Quelle der Dateien: Fontsource (https://fontsource.org), Teilmenge "latin" (enthält ä ö ü ß €).
+*/
+
+@font-face{
+  font-family:'Inter';
+  font-style:normal;
+  font-display:swap;
+  font-weight:100 900;
+  src:url('inter-latin-wght-normal.woff2') format('woff2-variations');
+}
+
+@font-face{
+  font-family:'Space Grotesk';
+  font-style:normal;
+  font-display:swap;
+  font-weight:300 700;
+  src:url('space-grotesk-latin-wght-normal.woff2') format('woff2-variations');
+}
+
+@font-face{
+  font-family:'JetBrains Mono';
+  font-style:normal;
+  font-display:swap;
+  font-weight:100 800;
+  src:url('jetbrains-mono-latin-wght-normal.woff2') format('woff2-variations');
+}
